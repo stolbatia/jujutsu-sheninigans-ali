@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title> jjs </title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* Твой фон. Файл должен лежать в той же папке */
+            background: url('infiniti void.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Верхняя панель */
+        .top-bar {
+            width: 100%;
+            background-color: rgba(15, 15, 15, 0.95); 
+            border-bottom: 2px solid #444; 
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .burger-menu {
+            position: absolute;
+            left: 25px;
+            cursor: pointer;
+        }
+
+        .line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 4px 0;
+            border-radius: 2px;
+        }
+
+        .site-theme {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 1.3rem;
+            color: #ffffff;
+        }
+
+        /* Основная карточка (Контейнер) */
+        .main-card {
+            margin-top: 40px;
+            width: 85%;
+            max-width: 1100px;
+            background-color: rgba(10, 10, 10, 0.85); 
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #555;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .content-box {
+            background-color: rgba(30, 30, 30, 0.5);
+            border-left: 5px solid #fff; 
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+
+        /* Блок персонажа Хакари */
+        .character-card {
+            width: 280px;
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 2px solid #444;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s ease;
+            text-decoration: none; /* Убираем подчеркивание ссылки */
+            display: block; /* Чтобы вся карточка была кликабельной */
+        }
+
+        .character-card:hover {
+            border-color: #fff;
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .character-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .character-name {
+            padding: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="burger-menu">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <span class="site-theme">JUJUTSU SHENANIGANS</span>
+</div>
+
+<div class="main-card">
+    <div class="section-title">ВСЕ ПЕРСОНАЖИ ИЗ JUJUTSU SHENANIGANS</div>
+    
+    <div class="content-box">
+        Все способности персонажей
+    </div>
+
+    <a href="hakari_page.html" class="character-card">
+        <img src="hakari.jpg" alt="Хакари">
+        <div class="character-name">Хакари</div>
+    </a>
+</div>
+
+</body>
+</html>
