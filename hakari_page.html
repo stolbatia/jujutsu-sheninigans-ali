@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Хакари — Restless Gambler</title>
+    <style>
+        /* Экран заставки */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+
+        #overlay h1 {
+            color: #ff00ff;
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            margin: 0;
+            text-shadow: 0 0 20px #ff00ff;
+            animation: pulse 1.5s infinite;
+        }
+
+        #overlay p {
+            color: white;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Основной контент */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('hakari_fon.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            margin-top: 30px;
+            width: 90%;
+            max-width: 1000px;
+            background-color: rgba(10, 10, 10, 0.92);
+            border: 1px solid #444;
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            margin-bottom: 50px;
+            opacity: 0; 
+            display: none; 
+            transition: opacity 1.5s ease;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: #fff;
+            background: #222;
+            padding: 8px 18px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            transition: 0.3s;
+        }
+
+        .back-button:hover { background: #444; border-color: #fff; }
+
+        h1 { font-size: 2.2rem; text-transform: uppercase; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        
+        h2 { font-size: 1.8rem; text-transform: uppercase; margin-top: 40px; border-bottom: 2px solid #ff00ff; color: #ff00ff; }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 20px 0;
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid #444;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #444;
+        }
+
+        .stats-table th {
+            background: rgba(0, 255, 204, 0.2);
+            color: #00ffcc;
+        }
+
+        /* Стиль для таблицы пробуждения */
+        .awakening-table th {
+            background: rgba(255, 0, 255, 0.2);
+            color: #ff00ff;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 204, 0.1);
+            border-left: 4px solid #00ffcc;
+            padding: 20px;
+            margin-bottom: 40px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .info-box b { color: #00ffcc; }
+
+        .advice-gifs {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .advice-item {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .advice-item span {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .unblockable { color: #ff4444; font-weight: bold; }
+
+        .ability-section {
+            background: rgba(25, 25, 25, 0.8);
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .ability-header {
+            color: #00ffcc;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .skill-gif {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            margin: 15px 0;
+            display: block;
+        }
+
+        .stats { color: #888; font-size: 0.9rem; }
+
+        .jackpot-special {
+            border: 1px solid #ff00ff;
+            background: rgba(40, 0, 40, 0.3);
+        }
+        .jackpot-special .ability-header { color: #ff00ff; }
+    </style>
+</head>
+<body>
+
+<div id="overlay" onclick="startEverything()">
+    <h1>JACKPOT?</h1>
+    <p>КЛИКНИ, ЧТОБЫ ВОЙТИ В АЗАРТ</p>
+</div>
+
+<audio id="hakari-audio" loop preload="auto">
+    <source src="tripping_on_love.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="main-content">
+    <a href="index.html" class="back-button">← НАЗАД В МЕНЮ</a>
+    
+    <h1>Restless Gambler (Kinji Hakari)</h1>
+
+    <h3> Таблица способностей (База)</h3>
+    <table class="stats-table">
+        <thead>
+            <tr>
+                <th>Способность</th>
+                <th>Урон</th>
+                <th>Кулдаун</th>
+                <th>Блокируется</th>
+                <th>Рагдолл</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Shutter Doors</td><td>8</td><td>15с</td><td>Да</td><td>Частично</td></tr>
+            <tr><td>Reserve Balls</td><td>7.5</td><td>12с</td><td>Да</td><td>Да</td></tr>
+            <tr><td>Reserve Ball Variant</td><td>14</td><td>1+2</td><td>Да</td><td>Частично</td></tr>
+            <tr><td>Door Kick</td><td>16</td><td>2+4</td><td>Да(не полностью)</td><td>Да</td></tr>
+            <tr><td>Rough Energy</td><td>12.5</td><td>14с</td><td>Нет</td><td>Да</td></tr>
+            <tr><td>Rough Energy Variant (Air)</td><td>13</td><td>В воздухе</td><td>Да</td><td>Да (Стомп)</td></tr>
+            <tr><td>Fever Breaker</td><td>15</td><td>23с</td><td class="unblockable">ДА</td><td>Нет</td></tr>
+            <tr><td>Door Guard</td><td>5</td><td>16с</td><td>Контратака</td><td>Нет</td></tr>
+        </tbody>
+    </table>
+
+    <div class="info-box">
+        <b>💡 Лайфхак с Shutter Doors:</b> Если вы промахнулись дверями по врагу, их можно использовать как трамплин.
+        <div class="advice-gifs">
+            <div class="advice-item">
+                <span>Высокий прыжок игрока:</span>
+                <img src="player_jump.gif" alt="Player Jump" class="skill-gif">
+            </div>
+            <div class="advice-item">
+                <span>Враг в рагдолле на дверях:</span>
+                <img src="enemy_ragdoll.gif" alt="Enemy Ragdoll" class="skill-gif">
+            </div>
+        </div>
+        <p style="margin-top: 10px;">Прыгнув на верхнюю часть открытых дверей, вы подлетите очень высоко.</p>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Shutter Doors</span>
+        <p>Призывает двери патинко, которые зажимают и оглушают врага.</p>
+        <img src="shutter_doors.gif" alt="Shutter Doors" class="skill-gif">
+        <span class="stats">УРОН: 8 | КД: 15с</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Reserve Balls</span>
+        <p>Бросок стального шара. Вблизи дает рагдолл, вдали — стан.</p>
+        <img src="reserve_balls.gif" alt="Reserve Balls" class="skill-gif">
+        <span class="stats">УРОН: 7.5 | КД: 12с</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Reserve Ball Variant (1 + 2)</span>
+        <p>Хакари комбинирует двери и шары, создавая мощную атаку.</p>
+        <img src="reserve_ball_variant.gif" alt="Reserve Ball Variant" class="skill-gif">
+        <span class="stats">УРОН: 14 | КОМБО: 1 + 2</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Door Kick (2 + 4)</span>
+        <p>Хакари наносит сокрушительный удар ногой, отправляя противника в полет через двери.</p>
+        <img src="door_kick.gif" alt="Door Kick" class="skill-gif">
+        <span class="stats">УРОН: 16 | КОМБО: 2 + 4</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Rough Energy</span>
+        <p>Удар кулаком с острой энергией. Основной прием для начала комбо.</p>
+        <img src="rough_energy.gif" alt="Rough Energy" class="skill-gif">
+        <span class="stats">УРОН: 12.5 | КД: 14с</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Rough Energy Variant (Air)</span>
+        <p>Хакари впечатывает противника в землю мощным стомпом.</p>
+        <img src="rough_energy_variant_air.gif" alt="Rough Energy Variant Air" class="skill-gif">
+        <span class="stats">УРОН: 13 | ТИП: Стомп</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Fever Breaker</span>
+        <p>Пинок в двери с последующим мощным ударом ногой. Пробивает блок.</p>
+        <img src="fever_breaker.gif" alt="Fever Breaker" class="skill-gif">
+        <span class="stats">УРОН: 15 | КД: 23с | UNBLOCKABLE</span>
+    </div>
+
+    <div class="ability-section">
+        <span class="ability-header">Door Guard (Special R)</span>
+        <p>Защитная стойка. Хакари контратакует любого, кто ударит по дверям.</p>
+        <img src="door_guard.gif" alt="Door Guard" class="skill-gif">
+        <span class="stats">УРОН: 5 | КД: 16с</span>
+    </div>
+
+    <div class="ability-section jackpot-special">
+        <span class="ability-header">Idle Death Gamble (Jackpot)</span>
+        <p>Территория Хакари. При выигрыше дает бесконечную энергию и бессмертие на время песни.</p>
+        <img src="jackpot.gif" alt="Jackpot" class="skill-gif">
+        <span class="stats">ЭФФЕКТ: АВТОМАТИЧЕСКАЯ ОБРАТНАЯ ТЕХНИКА</span>
+    </div>
+
+    <h2>Jackpot Mode Skills</h2>
+
+    <div class="ability-section jackpot-special">
+        <span class="ability-header">1. Lucky Volley</span>
+        <p>Серия ударов с мощным финальным взмахом. Финальный удар пробивает блок.</p>
+        <img src="lucky_volley.gif" alt="Lucky Volley" class="skill-gif">
+    </div>
+
+    <div class="ability-section jackpot-special">
+        <span class="ability-header">2. Lucky Rushdown</span>
+        <p>Бег вперёд с захватом цели и тасканием по полу.</p>
+        <img src="lucky_rushdown.gif" alt="Lucky Rushdown" class="skill-gif">
+    </div>
+
+    <div class="ability-section jackpot-special">
+        <span class="ability-header">3. Overwhelming Luck</span>
+        <p>Рывок с накоплением энергии, серия ударов и массовое отбрасывание.</p>
+        <img src="overwhelming_luck.gif" alt="Overwhelming Luck" class="skill-gif">
+    </div>
+
+    <div class="ability-section jackpot-special">
+        <span class="ability-header">4. Energy Surge</span>
+        <p>Подброс противника в воздух и стремительный удар ногой об землю.</p>
+        <img src="energy_surge.gif" alt="Energy Surge" class="skill-gif">
+    </div>
+
+    <div class="ability-section jackpot-special" style="border: 2px solid #00ffcc;">
+        <span class="ability-header" style="color: #00ffcc;">R. Rhythm</span>
+        <p>Танец под музыку: -0,6с к КД, увеличение скорости атаки, снятие эффектов Казни.</p>
+        <img src="rhythm.gif" alt="Rhythm" class="skill-gif">
+    </div>
+
+    <h2 style="margin-top: 60px;">Характеристики Пробуждения (Awakening)</h2>
+    <table class="stats-table awakening-table">
+        <thead>
+            <tr>
+                <th>Способность</th>
+                <th>Урон</th>
+                <th>Кулдаун</th>
+                <th>Блокируется</th>
+                <th>Особенность</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Lucky Volley</td><td>28.7</td><td>10с</td><td class="unblockable">Частично</td><td>Финал — Unblockable</td></tr>
+            <tr><td>Lucky Rushdown</td><td>24</td><td>15с</td><td>НЕТ</td><td>Захват по полу</td></tr>
+            <tr><td>Overwhelming Luck</td><td>40</td><td>20с</td><td>НЕТ</td><td>Массовый AOE</td></tr>
+            <tr><td>Energy Surge</td><td>20</td><td>25с</td><td>НЕТ</td><td>Воздушный слэм</td></tr>
+            <tr><td>Rhythm</td><td>0</td><td>12с</td><td style="color: #888;">N/A</td><td>Бафф скорости и КД</td></tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    function startEverything() {
+        const audio = document.getElementById('hakari-audio');
+        const overlay = document.getElementById('overlay');
+        const content = document.getElementById('main-content');
+        audio.play().catch(e => { console.log("Audio block:", e); });
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            content.style.display = 'block';
+            setTimeout(() => { content.style.opacity = '1'; }, 50);
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
